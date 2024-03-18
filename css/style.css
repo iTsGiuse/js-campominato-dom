@@ -1,0 +1,87 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* STRUTTURA */
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* ELEMENTI */
+.btn{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: grey;
+    cursor: pointer;
+}
+img {
+    width: 100%;
+}
+
+/* HEADER */
+header {
+    background-color: white;
+    height: 70px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+header .row, .col{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;  
+}
+header .box-image{
+    width: 50px;
+    height: 50px;
+}
+
+/* MAIN */
+main {
+    background-color: green;
+    display: none;
+}
+main .container{
+   width: 1200px;
+   margin: 0 auto;
+   padding: 30px;
+   padding-top: 100px;
+   padding-bottom: 100px;
+}
+.quadratino-10{
+    width: calc(100% / 10);
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.quadratino-9{
+    width: calc(100% / 9);
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.quadratino-7{
+    width: calc(100% / 7);
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+}
+.clicked{
+    background-color: blue;
+}
+/* FOOTER */
+footer {
+    background-color: white;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
