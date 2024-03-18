@@ -72,8 +72,11 @@ main .container{
     border: 1px solid black;
     text-align: center;
 }
-.clicked{
+.clicked-not-bomb{
     background-color: blue;
+}
+.clicked-bomb{
+    background-color: red;
 }
 /* FOOTER */
 footer {
