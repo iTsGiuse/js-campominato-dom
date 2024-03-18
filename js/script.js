@@ -6,27 +6,43 @@ const bombe=[];
 const main = document.querySelector('main');
 const grid = document.createElement('div');
 const row = document.createElement('div');
+const ranking = document.createElement('div');
+
+let larghezza = 0;
+let min = 0;
+let max = 0;
 let punteggio = 0;
+let again=0;
+
 /* seleziona button da html */
 const btn = document.querySelector('button.btn');
 
 /* AGGIUNGI EVENTO IN BASE ALLA DIFFICOLTA */
 btn.addEventListener('click', function() {
-
+    
     /* seleziona select */
     let difficolta = document.querySelector('#livello').value;
 
     if (difficolta === "easy") {
+        min= 1;
+        max = 100;
+        larghezza = 10;
         createElementiMain();
-        numeroGenerato100();
+        numero();
     } else if (difficolta === "normal") {
+        min= 1;
+        max = 81;
+        larghezza = 9;
         createElementiMain();
-        numeroGenerato81();
+        numero();
     } else if (difficolta === "hard") {
+        min = 1;
+        max = 49;
+        larghezza = 7;
         createElementiMain();
-        numeroGenerato49();
+        numero();
     }
-   
+
 });
 
 /* FUNCTIONS */
@@ -49,164 +65,98 @@ function createElementiMain() {
     grid.append(row);
     console.log(row);
 }
-/* FUNZIONE PER GENERARE 100 NUMERI */
-function numeroGenerato100() {
-    /* RICHIAMO LA FUNZIONE X GENERARE LE BOMBE */
-    bomba100();
 
-    /* CICLO PER GENERARE 100 NUMERI */
-    for (let i=0; i<100; i++){
-        
-        /* INIZIALIZZAZIONE VARIABILE PER ALTRO CICLO */
-        let x=0;
-
-        /* CICLO PER VERIFICARE DI NON INSERIRE LO STESSO NUMERO PIU VOLTE NEL ARRAY */
-        while (x<1) {
-            /* GENERA UN NUMERO RANDOM INTERO */
-            let numberGenerato = Math.floor(Math.random() * 100);
-
-            /* VERIFICA */
-            if (numberGenerato === numeri[i]){
-                numberGenerato = Math.random() * 100;
-            } /* AGGIUNGI IL NUMERO NEL QUADRARTO E APPENDILO ALLA .ROW */
-                else {
-                    numeri.push(numberGenerato);
-                    let quadrato = document.createElement('div');
-                    quadrato.classList.add('quadratino-10');
-                    /* AGGIUNGI EVENTO QUANDO CLICCHI UN QUADRATINO */
-                    quadrato.addEventListener('click', function(){
-                        /* MOSTRA IL NUMERO DEL QUADRATINO IN CONSOLE.LOG E COME ALERT */
-                        console.log(quadrato);
-                        alert(numberGenerato);
-                        /* CAMBIA COLORE AL QUADRATINO */
-                        this.classList.add('clicked');
-                    });
-                    quadrato.innerHTML= `<div> ${numberGenerato} </div>`;
-                    row.append(quadrato);
-                    x=2;
-                }
-        }
-        
-    }
-
-}
-/* FUNZIONE PER GENERARE 81 NUMERI */
-function numeroGenerato81() {
+function numero(){
     
-    bomba81();
+    bomba();
     console.log(bombe);
 
-    /* CICLO PER GENERARE 81 NUMERI */
-    for (let i=1; i<=81; i++){
-        
-        /* NUMERO GENERATO PRENDE IL VALORE DI I */
-       let numberGenerato = i;
+    for (let i=min; i<=max; i++){
+        /* CARICA I NUMERI NELLA VARIABILE */
+        let number = i;
 
-        /* CARICHIAMO NELL'ARRAY IL VALORE DI I */
-        numeri.push(numberGenerato);
+        /* CARICA I NUMERI NELL'ARRAY */
+        numeri.push(numeri);
         
-        /* CREO IL QUADRATO */
+        /* CREA QUADRATO NELL'HTML */
         let quadrato = document.createElement('div');
 
-        /* AGGIUNGO LA CLASSE */
-        quadrato.classList.add('quadratino-9');
+        /* SELEZIONA IL TIPO DI QUADRATO CSS */
+        if (larghezza = 10){
+            quadrato.classList.add('quadratino-10');
+        } else if (larghezza = 9) {
+            quadrato.classList.add('quadratino-9');
+        } else if (larghezza = 7) {
+            quadrato.classList.add('quadratino-7');
+        }
 
         /* AGGIUNGO IL NUMERO ALL'ELEMENTO */
-        quadrato.innerHTML= `<div> ${numberGenerato} </div>`;
+        quadrato.innerHTML= `<div> ${number} </div>`;
 
         /* AGGIUNGO L'ELEMENTO NELL'HTML */
         row.append(quadrato);
 
-         /* AGGIUNGI EVENTO QUANDO CLICCHI UN QUADRATINO */
-         quadrato.addEventListener('click', function(){
-            for (let j=1; j<17; j++){
-                if (bombe[j] === numeri[i]){
+        /* AGGIUNGI EVENTO QUANDO CLICCHI UN QUADRATINO */
+        quadrato.addEventListener('click', function(){
+
+            for (let j=0; j<bombe.length; j++){
+                
+                /* PRENDI IL CONTENUTO DEL QUADRATINO E CONFRONTALO CON L'ARRAY */
+                if (bombe[j] == this.children[0].innerHTML){
                     /* SE IL NUMERO E' UNA BOMBA COLORA DI ROSSO E MOSTRA MESSAGGIO CHE HAI PERSO */
                     quadrato.classList.add('clicked-bomb');
                     alert('Hai scoppiato una bomba, hai perso. Il tuo punteggio è di' + ' ' + punteggio);
-                    } else {
-                        /* SE IL NUMERO NON CORRISPONDE ALLA BOMBA AUMENTA IL PUNTEGGIO */
-                        quadrato.classList.add('clicked-not-bomb');
+                    quadrato.classList.add('dont-touch');
+                    again = 0;
+                    punetggio=punteggio;
+                } else {
+                    again = 1;
+                    quadrato.classList.add('clicked-not-bomb');
                 }
+
             }
-            punteggio++;
-            console.log(punteggio);
+
+            if (again == 1) {
+                /* AUMENTA IL PUNTEGGIO DI 1 */
+                punteggio ++;
+            }
+
+            /* APPENDI IL PUNTEGGIO AL CENTRO */
+            ranking.classList.add('box-ranking');
+            ranking.innerHTML = `<div> ${punteggio} </div>`;
+            classifica.append(ranking);
 
         });
+
+        row.append(quadrato);
+
+        ranking.classList.add('box-raking');
+        const classifica = document.getElementById('punteggio');
+        classifica.append(ranking);
+
+    }
+
+}
+
+function bomba(){
     
-    }
-
-}
-/* FUNZIONE PER GENERARE 49 NUMERI */
-function numeroGenerato49() {
-   
-    bomba49();
-   
-    /* CICLO PER GENERARE 49 NUMERI */
-    for (let i=0; i<49; i++){
-        
-        let x=0;
-        while (x<1) {
-
-            let numberGenerato = Math.floor(Math.random() * 49);
-
-            if (numberGenerato === numeri[i]){
-                numberGenerato = Math.floor(Math.random() * 49);
-                console.log(numberGenerato);
-                console.log(numeri);
-            } else {
-                numeri.push(numberGenerato);
-                let quadrato = document.createElement('div');
-                quadrato.classList.add('quadratino-7');
-                quadrato.innerHTML= `<div> ${numberGenerato} </div>`;
-                /* AGGIUNGI EVENTO QUANDO CLICCHI UN QUADRATINO */
-                quadrato.addEventListener('click', function(){
-                    /* MOSTRA IL NUMERO DEL QUADRATINO IN CONSOLE.LOG E COME ALERT */
-                    console.log(quadrato);
-                    alert(numberGenerato);
-                    /* CAMBIA COLORE AL QUADRATINO */
-                    this.classList.add('clicked');
-                });
-                row.append(quadrato);
-                x=2;
-            }
-        }
-
-    }
-
-}
-
-
-function bomba100(){
-    for (let i=1; i<17; i++ ){
-        let singolaBomba = i;
-        bombe.push(singolaBomba);
-  }
-}
-
-function bomba81(){
-    for (let i=1; i<17; i++ ){
+    for (let i=0; i<16; i++){
         /* INIZIALIZZAZIONE VARIABILE PER ALTRO CICLO */
-        let x=0;
+        let y=0;
 
         /* CICLO PER VERIFICARE DI NON INSERIRE LO STESSO NUMERO PIU VOLTE NEL ARRAY */
-        while (x<1) {
+        while (y<1) {
+            
             /* GENERA UN NUMERO RANDOM INTERO */
-            let singolaBomba = Math.floor(Math.random() * 81) + 1;
-            console.log('il numero generato della bomba e' + ' ' + singolaBomba);
+            let singolaBomba = Math.floor(Math.random() * max);
+
             /* VERIFICA */
             if (singolaBomba === bombe[i]){
-                singolaBomba = Math.floor(Math.random() * 81) + 1;
+                singolaBomba= Math.random() * max;
             } else {
                 bombe.push(singolaBomba);
-                x=2;
+                y=2;
             }
         }
     }
-}
-function bomba49(){
-    for (let i=1; i<17; i++ ){
-        let singolaBomba = i;
-        bombe.push(singolaBomba);
-  }
 }
