@@ -39,11 +39,7 @@ header .box-image{
     width: 50px;
     height: 50px;
 }
-header .box-ranking{
-    border: 1px solid transparent;
-    border-radius: 10px;
-    padding: 5px;
-}
+
 /* MAIN */
 main {
     background-color: #00E164;
@@ -52,12 +48,14 @@ main {
 main .container{
    max-width: 1200px;
    margin: 0 auto;
-   padding-top: 100px;
-   padding-bottom: 100px; 
+   padding-top: 50px;
+   padding-bottom: 30px; 
 }
+
 main .row{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: rgba(255, 255, 255, 0.405);
+    position: relative;
 }
 
 .quadratino-10{
@@ -86,6 +84,42 @@ main .row{
 .clicked-bomb{
     background-color: red;
 }
+main .box-ranking{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    font-size: 20px;
+}
+main .lose{
+    position: absolute;
+    color: rgba(255, 0, 0, 1);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 100px;
+}
+main .win{
+    position: absolute;
+    color: rgb(0, 255, 0, 1);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 100px;
+}
+.quadratino-dont-touch{
+    pointer-events: none;
+}
 /* FOOTER */
 footer {
     background-color: white;
@@ -96,14 +130,3 @@ footer {
 }
 
 
-@media screen and (min-width: 768px){
-    
-    header .row, .col{
-        width: 100%;
-    }
-
-    main, main .container, main .row, .quadratino-10, .quadratino-9, .quadratino-7{
-        width: 100%;
-    }
-
-}

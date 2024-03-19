@@ -7,7 +7,7 @@ const main = document.querySelector('main');
 const grid = document.createElement('div');
 const row = document.createElement('div');
 const ranking = document.createElement('div');
-
+const finish = document.createElement('div');
 let larghezza = 0;
 let min = 0;
 let max = 0;
@@ -19,7 +19,12 @@ const btn = document.querySelector('button.btn');
 
 /* AGGIUNGI EVENTO IN BASE ALLA DIFFICOLTA */
 btn.addEventListener('click', function() {
-    
+
+    numeri.splice(0);
+    bombe.splice(0);
+    punteggio=0;
+
+
     /* seleziona select */
     let difficolta = document.querySelector('#livello').value;
 
@@ -103,44 +108,79 @@ function numero(){
                 
                 /* PRENDI IL CONTENUTO DEL QUADRATINO E CONFRONTALO CON L'ARRAY */
                 if (bombe[j] == this.children[0].innerHTML){
-                    /* SE IL NUMERO E' UNA BOMBA COLORA DI ROSSO E MOSTRA MESSAGGIO CHE HAI PERSO */
+
+                    /* TRASFORMA IL NUMERO IN UNA BOMBA */
+                    this.innerHTML= `💣`;
+
+                    /* COLORA DI ROSSO IL QUADRATINO */
                     quadrato.classList.add('clicked-bomb');
-                    alert('Hai scoppiato una bomba, hai perso. Il tuo punteggio è di' + ' ' + punteggio);
-                    quadrato.classList.add('dont-touch');
-                    again = 0;
-                    punetggio=punteggio;
+
+                    /* RENDI I QUADRATINI NON CLICCABILI */
+                    row.classList.add('quadratino-dont-touch');
+
+                    /* AGGIUNGI LA CLASSE LOSE E MOSTRA MESSAGGIO 'HAI PERSO' */
+                    finish.classList.add('lose');
+                    finish.innerHTML= `HAI PERSO`;
+                    row.append(finish);
+                    
+                    /* VARIABILE PER OPERAZIONI */
+                    again = -1;
                 } else {
-                    again = 1;
+
+                    /* COLORA IL QUADRATINO DI BLU */
                     quadrato.classList.add('clicked-not-bomb');
+
+                    /* INCREMENTA LA VARABILE PER OPERAZIONI */
+                    again++;
                 }
 
             }
+            if (again > 0) {
 
-            if (again == 1) {
                 /* AUMENTA IL PUNTEGGIO DI 1 */
-                punteggio ++;
+                punteggio++;
+
+                /* DEFINISCI IL RISULTATO DI PUNTEGGIO DA MOSTRARE A SCHERMO */
+                ranking.classList.add('box-ranking');
+                ranking.innerHTML = `<div> Punteggio: ${punteggio} </div>`;
+
+            } else if (again < 1){
+
+                /* PUNTEGGIO -1 PERCHE' SENNO' ANCHE SE PRENDO LA BOMBA, IL PUNTEGGIO AUMENTA LO STESSO */
+                punteggio=punteggio - 1;
+
+                /* DEFINISCI IL RISULTATO DI PUNTEGGIO DA MOSTRARE A SCHERMO */
+                ranking.classList.add('box-ranking');
+                ranking.innerHTML = `<div> Punteggio: ${punteggio} </div>`;
+            } 
+
+            if (punteggio === (max - 16)){
+
+                /* RENDI I QUADRATINI NON CLICCABILI */
+                row.classList.add('quadratino-dont-touch');
+
+                /* AGGIUNGI LA CLASSE WIN E MOSTRA A SCHERMO CHE HAI VINTO */
+                finish.classList.add('win');
+                finish.innerHTML= `HAI VINTO`;
+                row.append(finish);
             }
 
-            /* APPENDI IL PUNTEGGIO AL CENTRO */
-            ranking.classList.add('box-ranking');
-            ranking.innerHTML = `<div> ${punteggio} </div>`;
-            classifica.append(ranking);
+            /* APPENDI IL PUNTEGGIO AL CENTRO SOTTO LA GRIGLIA */
+            grid.append(ranking);
 
         });
 
+        /* APPENDI IL QUADRATO */
         row.append(quadrato);
-
-        ranking.classList.add('box-raking');
-        const classifica = document.getElementById('punteggio');
-        classifica.append(ranking);
 
     }
 
 }
-
+/* FUNZIONE PER CREARE I NUMERI BOMBA */
 function bomba(){
-    
+    /* CICLO - I NUMERI BOMBA SONO 16 */
     for (let i=0; i<16; i++){
+        
         /* INIZIALIZZAZIONE VARIABILE PER ALTRO CICLO */
         let y=0;
 
@@ -152,7 +192,7 @@ function bomba(){
 
             /* VERIFICA */
             if (singolaBomba === bombe[i]){
-                singolaBomba= Math.random() * max;
+                singolaBomba= Math.floor(Math.random() * max);
             } else {
                 bombe.push(singolaBomba);
                 y=2;
