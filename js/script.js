@@ -20,10 +20,13 @@ const btn = document.querySelector('button.btn');
 /* AGGIUNGI EVENTO IN BASE ALLA DIFFICOLTA */
 btn.addEventListener('click', function() {
 
+    /* PULISCI GLI ARRAY E IL PUNTEGGIO */
     numeri.splice(0);
     bombe.splice(0);
     punteggio=0;
 
+    /* RIMUOVI LA CLASSE CHE NON PERMETTERE ALL'UTENTE DI CLICCARE LO SCHERMO */
+    row.classList.remove('quadratino-dont-touch');
 
     /* seleziona select */
     let difficolta = document.querySelector('#livello').value;
