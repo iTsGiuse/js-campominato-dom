@@ -132,7 +132,10 @@ function numero(){
 
                     /* COLORA IL QUADRATINO DI BLU */
                     quadrato.classList.add('clicked-not-bomb');
+
+                    /* QUANDO CLICCHI SUL QUADRATINO NON BOMBA QUESTO DIVENTA INCLICCABILE */
                     this.style.pointerEvents="none";
+                    
                     /* INCREMENTA LA VARABILE PER OPERAZIONI */
                     again++;
                 }
